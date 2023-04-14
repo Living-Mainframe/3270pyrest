@@ -10,8 +10,17 @@ class EmulatorFunction:
     
     def logon(self):
         self.emulator.connect(self.host)
+        self.send_enter(send_enter_key=False)
+        self.emulator.send_string(f"LOGON {self.user}")
+        self.send_enter()
+        self.emulator.send_string(f"{self.passwd}")
+        self.send_enter()
+        self.send_enter()
 
     def logoff(self):
+        self.emulator.send_pf3()
+        self.emulator.send_string(f"LOGOFF")
+        self.send_enter()
         self.emulator.terminate()
 
     def print_screen(self, file_path):
