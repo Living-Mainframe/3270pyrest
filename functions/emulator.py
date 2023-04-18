@@ -24,6 +24,7 @@ class EmulatorFunction:
         self.emulator.terminate()
 
     def print_screen(self, file_path):
+        # TODO use tempfile
         self.emulator.exec_command("PrintText(file,{0})".format(file_path).encode("ascii"))
         with open(file_path, 'r') as fin:
             print(fin.read())

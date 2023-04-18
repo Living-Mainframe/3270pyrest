@@ -1,11 +1,12 @@
 import threading, configparser
 from flask import Flask, jsonify, request
 from functions.version import GetVersion
+from functions.queue import GetQueue
 
 app = Flask(__name__)
 lock = threading.Lock()
 
-functions = {"version": GetVersion}
+functions = {"version": GetVersion, "queue": GetQueue}
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -23,8 +24,8 @@ def show(page):
                 result, status = emulator.run()
                 emulator.logoff()
                 return jsonify({"message": "Program executed successfully", "result": result}), 200
-            except:
-                return jsonify({"message": "Program not executed successfully"}), 500
+            except Exception as e:
+                return jsonify({"message": "Program not executed successfully", "result": str(e)}), 500
     else:
         return jsonify({"message": "Program not executed successfully"}), 404
 
