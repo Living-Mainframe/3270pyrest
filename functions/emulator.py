@@ -16,12 +16,17 @@ class EmulatorFunction:
         self.emulator.send_string(f"{self.passwd}")
         self.send_enter()
         self.send_enter()
+        self.emulator.send_string(f"panelid on")
+        self.send_enter()
 
     def logoff(self):
         self.emulator.send_pf3()
         self.emulator.send_string(f"LOGOFF")
         self.send_enter()
         self.emulator.terminate()
+
+    def get_panelid(self):
+        return self.emulator.string_get(3, 1, 8).strip()
 
     def print_screen(self, file_path):
         # TODO use tempfile
